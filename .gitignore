@@ -1,0 +1,4 @@
+*.json
+.project
+.pydevproject
+*txt
