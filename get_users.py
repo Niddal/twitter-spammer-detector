@@ -43,7 +43,7 @@ user_ids = []
 #use json to load user ids and then use that to get users from twitter
 with open("current_trends.json") as json_file:
     for json_line in json_file:
-        if len(user_ids) > 9:
+        if len(user_ids) > 99:
             # print user_ids
             users_info = api.lookup_users(user_ids=user_ids)
             for user_info in users_info:
@@ -55,6 +55,11 @@ with open("current_trends.json") as json_file:
             user_ids = list(set(user_ids))
         except ValueError:
             value_error = 1
+
+#cleanup code
+users_info = api.lookup_users(user_ids=user_ids)
+for user_info in users_info:
+    print user_info.__getstate__()
 
 # print dict(zip([(x.screen_name, x.id_str) for x in l], [x.id_str for x in l]))
 
