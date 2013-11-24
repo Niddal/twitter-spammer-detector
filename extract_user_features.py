@@ -1,5 +1,6 @@
 import tweepy
 import json
+import csv
 
 # == OAuth Authentication ==
 #
@@ -22,22 +23,13 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-# If the authentication was successful, you should
-# see the name of the account print out
+with open('features.csv', 'wb') as csvfile:
+    writer = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_ALL)
 
-class StreamListener(tweepy.StreamListener):
-    def on_status(self, tweet):
-        print 'Ran on_status'
+with open("sample_users.json") as user_json_file:
+    for user_json_line in user_json_file:
+        user_json = json.loads(user_json_line)
+        print (user_json)
+#         print api.get_timeline(id = user_json['id'])
 
-    def on_error(self, status_code):
-        print 'Error: ' + repr(status_code)
-        return False
-
-    def on_data(self, data):
-        print data
-        return True
-        
-stream_listener = StreamListener()
-streamer = tweepy.Stream(auth=auth, listener=stream_listener)
-setTerms = ['sachin', 'OneOfMyFavoriteMoviesIs', 'Anna', 'Diana', 'reasonsimightendupsingle']
-response = streamer.filter(track = setTerms)
+#spamwriter.writerow(['Spam'] * 5 + ['Baked,Beans'])
