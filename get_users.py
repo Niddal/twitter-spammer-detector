@@ -69,10 +69,7 @@ with open("sample.json") as json_file:
             value_error = 1
 
 #cleanup code
-# print user_ids  
 users_info = json.loads(api_raw.lookup_users(user_ids=user_ids))
-
-# print inspect.getmembers(api)
 
 # users_info = twitter_auth.users.lookup(screen_name="BCCI,littlecegian07", include_entities=1)
 for user_info in users_info:
@@ -87,12 +84,20 @@ for user_info in users_info:
     user_details = open('user.json','w')
     user_details.write(user_json_string)
     user_details.close()
-    timeline_tweets = api.user_timeline(id=user_id)
-    for tweet in timeline_tweets:
-        print json.dumps(tweet)
-    # print json.dumps(jsonpickle.encode(api.user_timeline(id=user_id)), indent=4, sort_keys=True)
-
-# print api.me().__getstate__
-# print dict(zip([(x.screen_name, x.id_str) for x in l], [x.id_str for x in l])
-
-
+    tweet_file = open('tweets.json', 'w')
+    page_no = 1
+    tweet_list = list()
+    while page_no <= 16:
+        tweets = json.loads(api_raw.user_timeline(id=user_id, page=page_no, count=200, include_rts=True))
+        if tweets:
+            for tweet in tweets:
+                tweet_list.append(tweet)
+        else:
+            break
+        page_no += 1
+    
+    print page_no
+    print len(tweet_list)
+    for tweet in tweet_list:
+        tweet_file.write(json.dumps(tweet) + '\n')
+    tweet_file.close()
