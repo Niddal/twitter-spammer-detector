@@ -1,3 +1,4 @@
+#encoding: UTF-8
 import tweepy
 import json
 
@@ -39,5 +40,5 @@ class StreamListener(tweepy.StreamListener):
         
 stream_listener = StreamListener()
 streamer = tweepy.Stream(auth=auth, listener=stream_listener)
-setTerms = ['sachin', 'OneOfMyFavoriteMoviesIs', 'Anna', 'Diana', 'reasonsimightendupsingle']
-response = streamer.filter(track = setTerms)
+setTerms = ['Thanksgiving', 'TellyExpressFaceOfTheYear', 'ThanksToStarWars', 'MomInspirations', 'tejpal', 'Jordan Hill', 'GarthBrooks']
+response = json.dumps(streamer.filter(track = setTerms))
