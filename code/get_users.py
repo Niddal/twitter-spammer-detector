@@ -18,19 +18,9 @@ import logging
 import shutil
 import numpy
 import time
-# == OAuth Authentication ==
-#
-# This mode of authentication is the new preferred way
-# of authenticating with Twitter.
-
-# The consumer keys can be found on your application"s Details
-# page located at https://dev.twitter.com/apps (under "OAuth settings")
 
 def get_auth(index=0):
-    consumer_key_array = ["5PXRUCe0QNl2UXTlcIiYCA", "Vw3QKxFFGfyb7wGSClrVow","hLydvBqbTO2abOwT5e06g", "FRU2IMxedLLMRGVs4O8eWA"]
-    consumer_secret_array = ["p2FClXOwzO4yvAM2oAKcElRNk5WLsenJm73cFkTb4o", "3FcFel8YnxKpMf9SBqHkm5qUnURoH3ZhynprfmORjpU","KEKMama0GWUP7HMb7L5eHFdTD6nFxHmSEJquf8hfhc", "IbUiIxWDHzvVeZZnUKGGOAtODvxqSwUCKYsQnxZg1lM"]
-    access_token_array = ["166457267-LVzoV1Y2W7y2aImys885YtYX4V1WY7YNkUzouYod", "166457267-4RFiWrOkTqOEe39Cw9IIGGLn24VNIONwtgh8wTds", "166457267-A1hopcIaBWK8cQ8dFivXDDJsikNETETXFPnsiaXJ", "166457267-Pm5w9G3wESdQzmNNvK3NBYMbtlF6nwb2MZwfQepm"]
-    access_token_secret_array = ["h4Qmc7UyLOTHeB25q6slF5LTw5cDxXSIz3nND5Xr906vn", "yiK05nFNdmQqZKJdAkp1au1daeF918XpLVhnZNVh2bLOn", "Ca7IGs8803G4Zg39Q7TlR9XPjSIqp4XGK4RReXrgcAARq", "98mJ6HIHE5X6X1W9DHyVrtDUpmBVhl1nm2isdDNi1Wi93"]
+    #auth values and tokens comes here
 
     consumer_key=consumer_key_array[index]
     consumer_secret=consumer_secret_array[index]
@@ -40,13 +30,6 @@ def get_auth(index=0):
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
     return auth
-# twitter_auth = Twitter(auth=OAuth(access_token, access_token_secret, consumer_key, consumer_secret))
-
-# twython_auth = Twython(consumer_key, consumer_secret, access_token, access_token_secret)
-
-
-# If the authentication was successful, you should
-# see the name of the account print out
 
 class StreamListener(tweepy.StreamListener):
     def on_status(self, tweet):
@@ -61,8 +44,6 @@ class StreamListener(tweepy.StreamListener):
         return True
     
 user_ids = []
-# print len(user_ids)
-#use json to load user ids and then use that to get users from twitter
 
 def print_rate_limits():
     #cleanup code
@@ -78,11 +59,11 @@ def write_to_file(users_info, path):
     element_file.close()
 
 
-# def get_99_users(element_ids, peer_list):
-#     users_info = json.loads(api_raw.lookup_users(user_ids=element_ids))
-#     for user_info in users_info:
-#         peer_list.append(user_info)
-#     return peer_list
+def get_99_users(element_ids, peer_list):
+    users_info = json.loads(api_raw.lookup_users(user_ids=element_ids))
+    for user_info in users_info:
+        peer_list.append(user_info)
+    return peer_list
 
 def write_peer_info(iterator, path):
     element_ids = []
@@ -361,8 +342,6 @@ while True:
         auth = get_auth(index)
         api_raw = tweepy.API(auth, parser=RawJsonParser())
         api = tweepy.API(auth)
-        # print_rate_limits()
-        # break
 
         # get_user_features_for_non_spammers()
         get_user_ids_from_user_names()
@@ -378,7 +357,6 @@ while True:
     except Exception, ex:
         logging.exception("Something awful happened!")
         print ex
-
 
 # print_rate_limits()
 # extract_user_info([json.loads(api_raw.get_user(screen_name='littlecegian07'))])
