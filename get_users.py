@@ -272,7 +272,7 @@ def insert_user_info(user_info):
 def extract_user_info(users_info):
     global csv_row
     data = []
-    fp = open('anonymous.csv', 'a')
+    fp = open('spammer-result.csv', 'w')
     writer = csv.writer(fp, delimiter=',')
     try:
         for user_info in users_info:
@@ -364,8 +364,8 @@ while True:
         # print_rate_limits()
         # break
 
-        get_user_features_for_non_spammers()
-        # get_user_ids_from_user_names()
+        # get_user_features_for_non_spammers()
+        get_user_ids_from_user_names()
         # get_user_ids_from_trends()
         # break
     except tweepy.TweepError:
